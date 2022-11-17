@@ -5,7 +5,8 @@ const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const User = require('./model/adminLoginSchema')
 const { reset } = require('nodemon')
-
+const { resolve } = require('path')
+const http = require('http');
 
 mongoose.connect('mongodb+srv://DEVANG23:sGS9G3qDgNVQztE@cluster0.ngb8lfk.mongodb.net/test_project')
 app.use(bodyParser.json())
@@ -19,11 +20,11 @@ app.get('/src/admin', (req, res) => {
     console.log(req.url);
     res.sendFile(path.resolve(__dirname, 'src/admin.html'))
 })
-app.get('/src/dashboard', (req, res) => {
-    console.log("dashboard appeared in url");
-    console.log(req.url);
-    res.sendFile(path.resolve(__dirname, 'src/dashboard.html'))
-})
+// app.get('/src/dashboard', (req, res) => {
+//     console.log("dashboard appeared in url");
+//     console.log(req.url);
+//     res.sendFile(path.resolve(__dirname, 'src/dashboard.html'))
+// })
 
 app.listen(3000, () => {
     console.log("listening on port 3000...");
@@ -37,7 +38,14 @@ app.post('/login', async (req, res) => {
     }
     if (password == user.password) {
         console.log("you are logged in ...");
-        res.send({"Success":"Success!"});
+        // res.send({"Success":"Success!"});
+        // res.writeHead(200,{'content-type': 'text/html'});
+        // res.write("./src/dashboard.html");
+        // res.end();
+        res.sendFile(path.join(__dirname, '/src/dashboard.html'));
+        // res.setHeader('Content-Type', '/src/dashboard.html');
+        // const headers=res.getHeader('Content-Type');
+        // console.log(headers);
     // return res.redirect('/src/dashboard.html')
 
         // return res.sendFile(path.resolve(__dirname, 'src/dashboard.html'))
